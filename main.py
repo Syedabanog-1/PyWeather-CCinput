@@ -4,7 +4,7 @@ import requests
 # OpenWeatherMap API Key
 API_KEY = "4565bdea59e6778f22b6db165ac65149"  # Replace with your API key
 
-def get_weather(city, country, selected_weather):
+def get_weather(city, country):
     if not city or not country:
         st.error("Please enter both country and city.")
         return
@@ -22,7 +22,7 @@ def get_weather(city, country, selected_weather):
         weather_desc = data["weather"][0]["description"].capitalize()
         temp = data["main"]["temp"]
         
-        st.success(f"**Weather:** {weather_desc}\n\n**Temperature:** {temp}°C\n\n**Selected Season:** {selected_weather}")
+        st.success(f"**Weather:** {weather_desc}\n\n**Temperature:** {temp}°C")
     
     except Exception as e:
         st.error(f"Could not retrieve weather data: {e}")
@@ -30,12 +30,9 @@ def get_weather(city, country, selected_weather):
 # Streamlit UI
 st.title("Weather App")
 
-# Season selection dropdown
-selected_weather = st.selectbox("Select Season:", ["Summer", "Winter", "Spring", "Autumn"])
-
 # Country and City text input fields
 selected_country = st.text_input("Enter Country:").strip()
 selected_city = st.text_input("Enter City:").strip()
 
 if st.button("Get Weather"):
-    get_weather(selected_city, selected_country, selected_weather)
+    get_weather(selected_city, selected_country)
